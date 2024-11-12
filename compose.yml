@@ -1,0 +1,55 @@
+  
+  
+services: 
+  vercel_postgres:
+    container_name: vercel_postgres
+    # user: rom
+    user: postgres
+    image: postgres:latest
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready --dbname=$${POSTGRES_DB} --username=$${POSTGRES_USER}'"]
+      interval: 3s
+      timeout: 10s
+      retries: 10
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+     - "5432:5432"
+    volumes:
+     - ./volumes/pgData/postgres.conf:/etc/postgresql/postgresql.conf # si activé, 
+     - ./apps/api/conception/data/script_postgres.sql:/docker-entrypoint-initdb.d/script_postgres.sql
+     #- ./volumes/pgData/data:/var/lib/postgresql/data
+     - ./volumes/pgData/data:/var/lib/postgresql/mydata # si mis sur le container, dans /data, erreur avec initdb et pg_wall => https://github.com/docker-library/postgres/issues/116 
+    networks:
+     - mynetwork
+
+  vercel_pgadmin4:
+    #image: dpage/pgadmin4:latest # image officielle
+    container_name: vercel_pgadmin4
+    image: dcagatay/pwless-pgadmin4:latest # la config doit permettre de se connecter automatiquement a un server 
+    depends_on:
+      - vercel_postgres
+    environment: 
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    volumes:
+     - ./volumes/pgAdmin/server.json:/pgadmin4/servers.json # preconfigured servers/connections 
+     - ./volumes/pgAdmin/pgpass:/pgadmin4/pgpass # passwords for the connections in this file
+    entrypoint: >
+      /bin/sh -c "
+      cp -f /pgadmin4/pgpass /var/lib/pgadmin/;
+      chmod 600 /var/lib/pgadmin/pgpass;
+      chown pgadmin:pgadmin /var/lib/pgadmin/pgpass;
+      /entrypoint.sh
+      "
+    ports: 
+    - "5050:80"
+    networks:
+     - mynetwork
+
+networks:
+  mynetwork:
+   external: false

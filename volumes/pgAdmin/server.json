@@ -1,0 +1,16 @@
+{
+    "Servers": {
+      "1": {
+        "Name": "vercel_server",
+        "Group": "vercel_group",
+        "Host": "vercel_postgres",
+        "Port": 5432,
+        "MaintenanceDB": "postgres",
+        "Username": "postgres",
+        "PassFile": "/var/lib/pgadmin/pgpass",
+        "SSLMode": "prefer",
+        "BGColor": "#E9D8FD",
+        "FGColor": "#322659"
+      }
+    }
+  }
