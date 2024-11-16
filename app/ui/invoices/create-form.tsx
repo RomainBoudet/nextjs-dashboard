@@ -7,10 +7,17 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
+import { createInvoice } from '@/app/lib/actions';
+
+
+/* 
+En HTML, on passe normalement une URL a l'attribut action. Et ectte url est la destination ou le form data doit être envoyé. (souvent un endpoint API)
+Cependant via Next.js Server ACtion crée un endpoint API POST; c'est pourquoi on n'a pas besoin de les crée manuellement. 
+*/
 
 export default function Form({ customers }: { customers: CustomerField[] }) {
   return (
-    <form>
+    <form action={createInvoice}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
