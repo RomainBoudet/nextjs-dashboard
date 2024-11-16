@@ -1,4 +1,10 @@
 import SideNav from '@/app/ui/dashboard/sidenav';
+
+
+// Avec le PPR, Next.js va pré-affiché les partie static, et délaiyé les partie dynamic jusqu'a ce que le user les demandes 
+// Mais en plus de passser a true cette valeur, il faut wrapper les composant  dynamic des routes 
+export const experimental_ppr = true;
+
  
 // Le layout permet le : Patial rendering 
 // l'avantage du Layout c'est que durant la navigation, seulement le composant page
