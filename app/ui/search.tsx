@@ -34,6 +34,9 @@ export default function Search({ placeholder }: { placeholder: string }) {
         onChange={(e) => {
           handlesearch(e.target.value);
         }}
+        // On s'assure de la synchronisation entre le champs de recherche et l'url soit toujours lié, si un user tape une query dans l'url, ça met a jour la barre de recherche
+        defaultValue={searchParams.get('query')?.toString()}
+        // si utilisation de state pour stocker l'input, on utilise "value", mais ici la donnée est stockée dans l'URL, on peut utiliser defaultValue ! 
       />
       <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
     </div>
