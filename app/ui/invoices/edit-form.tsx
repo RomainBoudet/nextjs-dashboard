@@ -9,6 +9,8 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
+import { updateInvoice } from '@/app/lib/actions';
+
 
 export default function EditInvoiceForm({
   invoice,
@@ -17,8 +19,14 @@ export default function EditInvoiceForm({
   invoice: InvoiceForm;
   customers: CustomerField[];
 }) {
+
+  // avec bind on retourne une nouvelle fonction ou l'id est fixé dans le marbre comme premier argument ! 
+  // => on se retrouve avec une fonction prête a l'emploi qui connait déja l'id, plus besoin de lui fournir a l'avenir
+  //(le premier argument vaut null car c'est sont context, this, ici pas besoin de le modifier, on ne s'en soucie pas.)
+  const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
+
   return (
-    <form>
+    <form action={updateInvoiceWithId}> {/* on passe l'info au server action avec une fonction qui connait déja l'id de la facture a éditer ! */}
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">

@@ -8,10 +8,7 @@ import {
   Revenue,
 } from "./definitions";
 import { formatCurrency } from "./utils";
-
-import pg from "pg";
-const { Pool } = pg;
-const db = new Pool({});
+import db from '@/app/lib/db';
 
 export async function fetchRevenue() {
   try {
