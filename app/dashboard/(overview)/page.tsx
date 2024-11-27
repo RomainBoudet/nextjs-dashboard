@@ -15,6 +15,12 @@ import {
   LatestInvoicesSkeleton,
   CardsSkeleton,
 } from "@/app/ui/skeletons";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'Dashboard ',
+ };
+ 
 
 export default async function Page() {
   // schema en waterFall, on doit attendre que chaque requête soit fini pour lancer la prochaine
